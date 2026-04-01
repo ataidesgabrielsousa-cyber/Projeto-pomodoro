@@ -1,0 +1,64 @@
+.cycles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+}
+
+.cycles > span {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cycleDots {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.cycleDot {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: default;
+}
+
+.cycleDot:hover {
+  transform: scale(1.35);
+}
+
+/* Foco em trabalho = laranja (cor primária) */
+.workTime {
+  background: var(--primary);
+  box-shadow: 0 0 0.6rem rgba(255, 107, 43, 0.5);
+}
+
+.workTime:hover {
+  box-shadow: 0 0 1.2rem rgba(255, 107, 43, 0.8);
+}
+
+/* Pausa curta = verde */
+.shortBreakTime {
+  background: var(--success);
+  box-shadow: 0 0 0.6rem rgba(34, 197, 94, 0.4);
+}
+
+.shortBreakTime:hover {
+  box-shadow: 0 0 1.2rem rgba(34, 197, 94, 0.7);
+}
+
+/* Pausa longa = azul */
+.longBreakTime {
+  background: var(--info);
+  box-shadow: 0 0 0.6rem rgba(56, 189, 248, 0.4);
+}
+
+.longBreakTime:hover {
+  box-shadow: 0 0 1.2rem rgba(56, 189, 248, 0.7);
+}

@@ -1,0 +1,38 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 400;
+  gap: 1.6rem;
+  padding: 3.2rem 0 4rem;
+}
+
+.footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  position: relative;
+}
+
+/* Sublinhado laranja animado no hover */
+.footer a::after {
+  content: '';
+  position: absolute;
+  bottom: -0.2rem;
+  left: 0;
+  width: 0;
+  height: 0.1rem;
+  background: var(--primary);
+  transition: width 0.25s ease-in-out;
+}
+
+.footer a:hover {
+  color: var(--primary-light);
+}
+
+.footer a:hover::after {
+  width: 100%;
+}

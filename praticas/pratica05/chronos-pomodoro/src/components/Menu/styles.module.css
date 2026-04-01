@@ -1,0 +1,36 @@
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 2.4rem 0;
+}
+
+.menuLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: var(--primary);
+  color: var(--text-over-primary);
+  transition: all 0.2s ease-in-out;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1.2rem rgba(255, 107, 43, 0.35);
+}
+
+.menuLink:hover {
+  background: var(--primary-light);
+  box-shadow: 0 0.6rem 2rem rgba(255, 107, 43, 0.55);
+  transform: translateY(-0.2rem);
+}
+
+.menuLink:active {
+  transform: translateY(0);
+  box-shadow: 0 0.2rem 0.8rem rgba(255, 107, 43, 0.3);
+}
+
+.menuLink svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
