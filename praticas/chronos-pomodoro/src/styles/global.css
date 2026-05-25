@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 400;
+  background: var(--gray-900);
+  color: var(--text-default);
+  min-height: 100vh;
+
+  /* Glow superior laranja sutil */
+  background-image: var(--gradient-bg);
+  background-attachment: fixed;
+}
+
+/* ── Scrollbar personalizada ── */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+  background: var(--gray-800);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-dark);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ── Seleção de texto ── */
+::selection {
+  background: rgba(255, 107, 43, 0.3);
+  color: var(--primary-light);
+}
+
+/* ── Focus acessível ── */
+:focus-visible {
+  outline: 0.2rem solid var(--primary);
+  outline-offset: 0.3rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Formulário global (estrutura do professor) ── */
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+/* ── Animações ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow: 0 0 2rem var(--glow-primary);
+  }
+  50% {
+    text-shadow: 0 0 4rem var(--glow-primary), 0 0 8rem rgba(255, 107, 43, 0.2);
+  }
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes dotPop {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.3); }
+}
