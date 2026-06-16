@@ -1,0 +1,14 @@
+.heading {
+  font-family: var(--font-body);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--text-default);
+  letter-spacing: -0.03em;
+  text-align: center;
+
+  /* Destaque sutil laranja */
+  background: linear-gradient(135deg, var(--text-default) 60%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

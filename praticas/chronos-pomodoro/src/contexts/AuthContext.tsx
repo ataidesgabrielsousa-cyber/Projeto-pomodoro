@@ -1,50 +1,47 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 
-// Credenciais mockadas (valores fixos no front-end)
-export const MOCK_USER = 'usuario@chronos.com';
-export const MOCK_PASSWORD = 'chronos123';
+const API_URL = 'http://localhost:3333';
 
-// Types
 export type AuthState = {
   isAuthenticated: boolean;
   username: string | null;
+  token: string | null;
 };
 
 export type AuthAction =
-  | { type: 'LOGIN'; payload: { username: string } }
+  | { type: 'LOGIN'; payload: { username: string; token: string } }
   | { type: 'LOGOUT' };
 
 type AuthContextType = {
   authState: AuthState;
-  login: (username: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  forgot: (email: string) => Promise<{ success: boolean; token?: string; error?: string }>;
+  reset: (token: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 };
 
-// Estado inicial
 const initialState: AuthState = {
   isAuthenticated: false,
   username: null,
+  token: null,
 };
 
-// Reducer
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case 'LOGIN':
-      return { isAuthenticated: true, username: action.payload.username };
+      return { isAuthenticated: true, username: action.payload.username, token: action.payload.token };
     case 'LOGOUT':
-      return { isAuthenticated: false, username: null };
+      return { isAuthenticated: false, username: null, token: null };
     default:
       return state;
   }
 }
 
-// Contexto
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-// Provider
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const [authState, dispatch] = useReducer(authReducer, initialState, () => {
-    // Restaura sessão do sessionStorage ao recarregar a página
     const saved = sessionStorage.getItem('auth');
     if (saved) {
       try {
@@ -56,32 +53,83 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     return initialState;
   });
 
-  // Persiste sessão no sessionStorage
   useEffect(() => {
     sessionStorage.setItem('auth', JSON.stringify(authState));
   }, [authState]);
 
-  function login(username: string, password: string): boolean {
-    const isValid =
-      username.trim() === MOCK_USER && password === MOCK_PASSWORD;
-    if (isValid) {
-      dispatch({ type: 'LOGIN', payload: { username } });
+  async function login(email: string, password: string) {
+    try {
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error };
+      dispatch({ type: 'LOGIN', payload: { username: data.name, token: data.token } });
+      return { success: true };
+    } catch {
+      return { success: false, error: 'Erro ao conectar com o servidor' };
     }
-    return isValid;
+  }
+
+  async function register(name: string, email: string, password: string) {
+    try {
+      const res = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error };
+      return { success: true };
+    } catch {
+      return { success: false, error: 'Erro ao conectar com o servidor' };
+    }
+  }
+
+  async function forgot(email: string) {
+    try {
+      const res = await fetch(`${API_URL}/auth/forgot`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error };
+      return { success: true, token: data.token };
+    } catch {
+      return { success: false, error: 'Erro ao conectar com o servidor' };
+    }
+  }
+
+  async function reset(token: string, password: string) {
+    try {
+      const res = await fetch(`${API_URL}/auth/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { success: false, error: data.error };
+      return { success: true };
+    } catch {
+      return { success: false, error: 'Erro ao conectar com o servidor' };
+    }
   }
 
   function logout() {
+    sessionStorage.removeItem('auth');
     dispatch({ type: 'LOGOUT' });
   }
 
   return (
-    <AuthContext.Provider value={{ authState, login, logout }}>
+    <AuthContext.Provider value={{ authState, login, register, forgot, reset, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Hook customizado
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

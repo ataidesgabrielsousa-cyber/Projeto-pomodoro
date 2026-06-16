@@ -34,3 +34,10 @@
   width: 2.4rem;
   height: 2.4rem;
 }
+
+.welcome {
+  font-size: 0.85rem;
+  color: var(--color-primary, #fff);
+  padding: 0 0.5rem;
+  white-space: nowrap;
+}

@@ -1,0 +1,43 @@
+.userBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 0.1rem solid var(--gray-800);
+}
+
+.greeting {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+}
+
+.greeting strong {
+  color: var(--primary-light);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 0.1rem solid var(--gray-600);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.logoutButton:hover {
+  border-color: var(--error);
+  color: #f87171;
+}
